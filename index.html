@@ -613,39 +613,43 @@ body {
 }
 .qlink {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 14px;
+  gap: 8px;
+  padding: 16px 8px;
   background: var(--raised);
   border: 1px solid var(--border);
   border-radius: 8px;
   text-decoration: none;
   cursor: pointer;
   transition: border-color 0.2s, background 0.2s;
+  text-align: center;
 }
 .qlink:hover { border-color: var(--gold-dim); background: var(--gold-faint); }
 .qlink-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
   background: var(--surface);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
   flex-shrink: 0;
 }
 .qlink-name {
-  font-size: var(--text-base);
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: 700;
   color: var(--parchment);
   display: block;
+  line-height: 1.2;
 }
 .qlink-desc {
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   color: var(--slate);
   display: block;
   margin-top: 1px;
+  line-height: 1.3;
 }
 
 /* ─── FINANCE ROWS ────────────────────────────────────── */

@@ -2,1906 +2,508 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fulgent Post Atelier — Operations</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Fulgent Post Atelier — Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-
-/* ─── TOKENS ──────────────────────────────────────────── */
 :root {
-  --black:      #080808;
-  --deep:       #101010;
-  --surface:    #181818;
-  --raised:     #202020;
-  --border:     #2C2C2C;
-  --border2:    #383838;
-  --gold:       #C9A84C;
-  --gold-dim:   #8A6F30;
-  --gold-glow:  rgba(201,168,76,0.18);
-  --gold-faint: rgba(201,168,76,0.07);
-  --parchment:  #EDE8E0;
-  --white:      #FFFFFF;
-  --slate:      #7A818C;
-  --slate-lt:   #A8B0BC;
-  --green:      #34D058;
-  --amber:      #F5A623;
-  --red:        #F05252;
-  --blue:       #4B8EF1;
-
-  /* Typography scale — larger for readability */
-  --text-xs:    0.75rem;   /* 12px */
-  --text-sm:    0.875rem;  /* 14px */
-  --text-base:  1rem;      /* 16px */
-  --text-lg:    1.125rem;  /* 18px */
-  --text-xl:    1.25rem;   /* 20px */
-  --text-2xl:   1.5rem;    /* 24px */
-  --text-3xl:   1.875rem;  /* 30px */
-  --text-4xl:   2.25rem;   /* 36px */
-}
-
-/* ─── RESET ───────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-body {
-  background: var(--black);
-  color: var(--parchment);
-  font-family: 'Inter', sans-serif;
-  font-size: var(--text-base);
-  line-height: 1.6;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-
-/* ─── SIGNAL BAR ──────────────────────────────────────── */
-.signal-bar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    var(--gold-dim) 15%,
-    var(--gold) 35%,
-    var(--gold) 65%,
-    var(--gold-dim) 85%,
-    transparent 100%
-  );
-  animation: signal 4s ease-in-out infinite;
-  z-index: 1000;
-}
-@keyframes signal {
-  0%,100% { opacity:.55; }
-  50% { opacity:1; }
-}
-
-/* ─── WRAPPER ─────────────────────────────────────────── */
-.wrap {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 16px 60px;
-}
-
-/* ═══════════════════════════════════════════════════════
-   BANNER SECTION
-═══════════════════════════════════════════════════════ */
-.banner {
-  position: relative;
-  background: var(--deep);
-  border-bottom: 1px solid var(--border);
-  overflow: hidden;
-  padding: 36px 24px 32px;
-  margin-bottom: 0;
-}
-
-/* Waveform background */
-.banner-bg {
-  position: absolute;
-  inset: 0;
-  opacity: 0.12;
-  pointer-events: none;
-}
-.banner-bg svg { width: 100%; height: 100%; }
-
-/* Overlays */
-.banner-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg,
-    var(--deep) 0%,
-    rgba(16,16,16,0.9) 40%,
-    rgba(16,16,16,0.5) 70%,
-    var(--deep) 100%
-  );
-  pointer-events: none;
-}
-.banner-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 0% 50%, rgba(201,168,76,0.1) 0%, transparent 60%);
-  pointer-events: none;
-}
-
-/* Top accent */
-.banner-line {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), var(--gold), transparent);
-  animation: signal 3s ease-in-out infinite;
-}
-
-/* Banner content */
-.banner-inner {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.banner-top {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.banner-icon {
-  width: 48px;
-  height: 48px;
-  border: 1.5px solid rgba(201,168,76,0.5);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.banner-location {
-  font-size: var(--text-xs);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(201,168,76,0.6);
-  font-weight: 500;
-}
-
-.banner-title {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(1.6rem, 5vw, 2.8rem);
-  font-weight: 600;
-  color: var(--parchment);
-  letter-spacing: 0.06em;
-  line-height: 1.1;
-}
-.banner-title .gold { color: var(--gold); font-weight: 400; }
-
-.banner-sub {
-  font-size: var(--text-sm);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--slate);
-  font-weight: 400;
-  margin-top: 6px;
-}
-
-.banner-rule {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 4px;
-}
-.banner-rule-line {
-  width: 40px;
-  height: 1px;
-  background: rgba(201,168,76,0.4);
-}
-.banner-rule-text {
-  font-size: var(--text-xs);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(201,168,76,0.45);
-  font-weight: 500;
-}
-
-/* Stats row */
-.banner-stats {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.banner-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.banner-stat-val {
-  font-family: 'Cinzel', serif;
-  font-size: var(--text-2xl);
-  font-weight: 400;
-  color: var(--gold);
-  line-height: 1;
-}
-.banner-stat-lbl {
-  font-size: var(--text-xs);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--slate);
-  font-weight: 500;
-}
-.banner-stat-div {
-  width: 1px;
-  height: 36px;
-  background: rgba(201,168,76,0.15);
-  align-self: center;
-}
-
-.banner-status {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 16px;
-  border: 1px solid rgba(201,168,76,0.2);
-  border-radius: 100px;
-  background: rgba(201,168,76,0.04);
-  width: fit-content;
-}
-.status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--green);
-  animation: blink 2s ease-in-out infinite;
-}
-@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.3;} }
-.status-text {
-  font-size: var(--text-sm);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--slate-lt);
-  font-weight: 500;
-}
-
-/* ═══════════════════════════════════════════════════════
-   NAV BAR
-═══════════════════════════════════════════════════════ */
-.navbar {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  padding: 0 16px;
-}
-.navbar-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding: 10px 0;
-}
-.navbar-inner::-webkit-scrollbar { display: none; }
-.nav-btn {
-  flex-shrink: 0;
-  padding: 8px 16px;
-  font-size: var(--text-sm);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--slate-lt);
-  background: none;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: 'Inter', sans-serif;
-}
-.nav-btn:hover { color: var(--parchment); background: var(--raised); }
-.nav-btn.active { color: var(--gold); background: var(--gold-faint); }
-
-/* ═══════════════════════════════════════════════════════
-   PAGE SECTIONS
-═══════════════════════════════════════════════════════ */
-.page-section { display: none; }
-.page-section.active { display: block; }
-
-/* ─── SECTION HEADER ──────────────────────────────────── */
-.section-head {
-  padding: 28px 0 20px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 24px;
-}
-.section-eyebrow {
-  font-size: var(--text-xs);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-.section-title {
-  font-family: 'Cinzel', serif;
-  font-size: var(--text-2xl);
-  font-weight: 400;
-  color: var(--white);
-  letter-spacing: 0.04em;
-}
-
-/* ─── KPI GRID ────────────────────────────────────────── */
-.kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 24px;
-}
-@media (min-width: 640px) {
-  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
-}
-@media (min-width: 900px) {
-  .kpi-grid { grid-template-columns: repeat(5, 1fr); }
-}
-
-.kpi-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 18px 16px;
-  border-top-width: 2px;
-}
-.kpi-card.c-gold  { border-top-color: var(--gold); }
-.kpi-card.c-green { border-top-color: var(--green); }
-.kpi-card.c-amber { border-top-color: var(--amber); }
-.kpi-card.c-blue  { border-top-color: var(--blue); }
-.kpi-card.c-grey  { border-top-color: var(--border2); }
-
-.kpi-label {
-  font-size: var(--text-xs);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--slate);
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-.kpi-val {
-  font-size: var(--text-3xl);
-  font-weight: 700;
-  color: var(--white);
-  line-height: 1;
-  margin-bottom: 6px;
-  letter-spacing: -0.02em;
-}
-.kpi-val.gold { color: var(--gold); }
-.kpi-sub {
-  font-size: var(--text-sm);
-  color: var(--slate);
-}
-.kpi-sub .up   { color: var(--green); }
-.kpi-sub .warn { color: var(--amber); }
-
-/* ─── PANEL ───────────────────────────────────────────── */
-.panel {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.panel-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border);
-}
-.panel-title {
-  font-size: var(--text-sm);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--slate-lt);
-}
-.panel-action {
-  font-size: var(--text-sm);
-  color: var(--gold);
-  font-weight: 600;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  padding: 0;
-}
-.panel-body { padding: 20px; }
-
-/* ─── TWO COLUMN GRID ─────────────────────────────────── */
-.two-col {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-@media (min-width: 768px) {
-  .two-col { grid-template-columns: 1fr 320px; }
-}
-
-.three-col {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-@media (min-width: 768px) {
-  .three-col { grid-template-columns: repeat(3, 1fr); }
-}
-
-/* ─── PROJECT TABLE ───────────────────────────────────── */
-.proj-table { width: 100%; border-collapse: collapse; }
-.proj-table th {
-  text-align: left;
-  font-size: var(--text-xs);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--slate);
-  font-weight: 700;
-  padding: 0 12px 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-.proj-table td {
-  padding: 16px 12px 16px 0;
-  border-bottom: 1px solid var(--border);
-  vertical-align: middle;
-  font-size: var(--text-base);
-}
-.proj-table tr:last-child td { border-bottom: none; }
-
-.proj-code {
-  font-size: var(--text-xs);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--gold);
-  font-family: 'Courier New', monospace;
-  display: block;
-  margin-bottom: 3px;
-}
-.proj-name {
-  font-size: var(--text-base);
-  font-weight: 600;
-  color: var(--parchment);
-  display: block;
-}
-.proj-client {
-  font-size: var(--text-sm);
-  color: var(--slate);
-  display: block;
-  margin-top: 2px;
-}
-
-/* Stage badges */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 12px;
-  border-radius: 100px;
-  font-size: var(--text-sm);
-  font-weight: 700;
-  white-space: nowrap;
-}
-.badge-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-}
-.badge.active    { background: rgba(52,208,88,0.12);  color: var(--green); }
-.badge.review    { background: rgba(245,166,35,0.12); color: var(--amber); }
-.badge.grading   { background: rgba(201,168,76,0.12); color: var(--gold); }
-.badge.delivered { background: rgba(75,142,241,0.12); color: var(--blue); }
-.badge.inquiry   { background: rgba(122,129,140,0.15); color: var(--slate-lt); }
-
-/* ─── PIPELINE TRACKER ────────────────────────────────── */
-.pipeline {
-  display: flex;
-  align-items: flex-start;
-  overflow-x: auto;
-  padding: 20px;
-  gap: 0;
-  scrollbar-width: none;
-}
-.pipeline::-webkit-scrollbar { display: none; }
-
-.pipe-item {
-  flex: 1;
-  min-width: 70px;
-  text-align: center;
-  position: relative;
-}
-.pipe-item::after {
-  content: '';
-  position: absolute;
-  top: 18px;
-  left: 50%;
-  width: 100%;
-  height: 1px;
-  background: var(--border2);
-}
-.pipe-item:last-child::after { display: none; }
-
-.pipe-dot-wrap {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 8px;
-}
-.pipe-dot {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-sm);
-  font-weight: 700;
-  background: var(--raised);
-  border: 1px solid var(--border2);
-  color: var(--slate);
-}
-.pipe-dot.done {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: var(--black);
-  font-size: var(--text-base);
-}
-.pipe-dot.now {
-  background: var(--surface);
-  border: 2.5px solid var(--gold);
-  color: var(--gold);
-  box-shadow: 0 0 16px var(--gold-glow);
-}
-.pipe-lbl {
-  font-size: var(--text-xs);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--slate);
-  line-height: 1.3;
-  padding: 0 2px;
-}
-.pipe-lbl.now { color: var(--gold); font-weight: 600; }
-
-/* ─── ACTIVITY FEED ───────────────────────────────────── */
-.activity-item {
-  display: flex;
-  gap: 14px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
-}
-.activity-item:last-child { border-bottom: none; }
-.activity-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-base);
-  flex-shrink: 0;
-}
-.ai-gold   { background: var(--gold-faint); color: var(--gold); }
-.ai-green  { background: rgba(52,208,88,0.08);  color: var(--green); }
-.ai-blue   { background: rgba(75,142,241,0.08); color: var(--blue); }
-.ai-amber  { background: rgba(245,166,35,0.08); color: var(--amber); }
-
-.activity-title {
-  font-size: var(--text-base);
-  font-weight: 600;
-  color: var(--parchment);
-  line-height: 1.4;
-}
-.activity-meta {
-  font-size: var(--text-sm);
-  color: var(--slate);
-  margin-top: 3px;
-}
-
-/* ─── QUICK LINKS ─────────────────────────────────────── */
-.links-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding: 16px 20px;
-}
-.qlink {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 8px;
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
-  text-align: center;
-}
-.qlink:hover { border-color: var(--gold-dim); background: var(--gold-faint); }
-.qlink-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  background: var(--surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-xl);
-  flex-shrink: 0;
-}
-.qlink-name {
-  font-size: var(--text-sm);
-  font-weight: 700;
-  color: var(--parchment);
-  display: block;
-  line-height: 1.2;
-}
-.qlink-desc {
-  font-size: var(--text-xs);
-  color: var(--slate);
-  display: block;
-  margin-top: 1px;
-  line-height: 1.3;
-}
-
-/* ─── FINANCE ROWS ────────────────────────────────────── */
-.fin-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-.fin-row:last-of-type { border-bottom: none; }
-.fin-label { font-size: var(--text-base); color: var(--slate-lt); }
-.fin-val   { font-size: var(--text-base); font-weight: 700; color: var(--parchment); }
-.fin-val.pos  { color: var(--green); }
-.fin-val.warn { color: var(--amber); }
-.fin-val.gold { color: var(--gold); }
-
-/* Progress bar */
-.prog-wrap { margin-top: 16px; }
-.prog-head {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-.prog-label { font-size: var(--text-sm); color: var(--slate); }
-.prog-pct   { font-size: var(--text-sm); font-weight: 700; color: var(--gold); }
-.prog-track {
-  height: 4px;
-  background: var(--raised);
-  border-radius: 100px;
-  overflow: hidden;
-}
-.prog-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--gold-dim), var(--gold));
-  border-radius: 100px;
-  transition: width 1.2s ease;
-}
-.prog-fill.green {
-  background: linear-gradient(90deg, #16a34a, var(--green));
-}
-
-/* ─── WEEKLY RHYTHM ───────────────────────────────────── */
-.week-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-@media (min-width: 640px) {
-  .week-grid { grid-template-columns: repeat(7, 1fr); }
-}
-.week-day {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 12px 8px;
-  text-align: center;
-}
-.week-day.today {
-  border-color: var(--gold);
-  background: var(--gold-faint);
-}
-.day-name {
-  font-size: var(--text-xs);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--slate);
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-.day-name.today-lbl { color: var(--gold); }
-.day-task {
-  font-size: var(--text-xs);
-  color: var(--slate-lt);
-  line-height: 1.4;
-}
-.day-pip {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--gold);
-  margin: 6px auto 0;
-}
-
-/* ─── SOP LIST ────────────────────────────────────────── */
-.sop-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
-  gap: 12px;
-}
-.sop-item:last-child { border-bottom: none; }
-.sop-left { display: flex; align-items: center; gap: 12px; }
-.sop-check {
-  width: 22px;
-  height: 22px;
-  border-radius: 4px;
-  border: 1.5px solid var(--border2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-sm);
-  font-weight: 700;
-  flex-shrink: 0;
-}
-.sop-check.done { background: rgba(52,208,88,0.1);  border-color: var(--green); color: var(--green); }
-.sop-check.wip  { background: rgba(245,166,35,0.1); border-color: var(--amber); color: var(--amber); }
-.sop-name {
-  font-size: var(--text-base);
-  font-weight: 600;
-  color: var(--parchment);
-  display: block;
-}
-.sop-code {
-  font-size: var(--text-sm);
-  color: var(--slate);
-  font-family: 'Courier New', monospace;
-  display: block;
-  margin-top: 1px;
-}
-.sop-badge {
-  font-size: var(--text-sm);
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 100px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.sop-badge.done { color: var(--green); background: rgba(52,208,88,0.1); }
-.sop-badge.wip  { color: var(--amber); background: rgba(245,166,35,0.1); }
-.sop-badge.todo { color: var(--slate);  background: var(--raised); }
-
-/* ─── PHASE TRACKER ───────────────────────────────────── */
-.phase-item {
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border);
-}
-.phase-item:last-child { border-bottom: none; }
-.phase-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 4px;
-}
-.phase-num  { font-size: var(--text-sm); font-family: 'Courier New', monospace; color: var(--gold); font-weight: 700; letter-spacing: 0.1em; }
-.phase-pct  { font-size: var(--text-sm); font-weight: 700; color: var(--slate-lt); }
-.phase-name { font-size: var(--text-base); font-weight: 700; color: var(--parchment); margin-bottom: 2px; }
-.phase-desc { font-size: var(--text-sm); color: var(--slate); margin-bottom: 10px; }
-
-/* ─── EQUIPMENT LIST ──────────────────────────────────── */
-.equip-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-  gap: 12px;
-}
-.equip-item:last-child { border-bottom: none; }
-.equip-name {
-  font-size: var(--text-base);
-  font-weight: 600;
-  color: var(--parchment);
-  display: block;
-}
-.equip-spec {
-  font-size: var(--text-sm);
-  color: var(--slate);
-  font-family: 'Courier New', monospace;
-  display: block;
-  margin-top: 2px;
-}
-.equip-status {
-  font-size: var(--text-sm);
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 100px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.equip-status.live { color: var(--green); background: rgba(52,208,88,0.1); }
-.equip-status.p2   { color: var(--amber); background: rgba(245,166,35,0.1); }
-
-/* ─── ACTION ITEMS ────────────────────────────────────── */
-.action-item {
-  display: flex;
-  gap: 14px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
-  align-items: flex-start;
-}
-.action-item:last-child { border-bottom: none; }
-.action-num {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-sm);
-  font-weight: 700;
-  flex-shrink: 0;
-}
-.action-title {
-  font-size: var(--text-base);
-  font-weight: 600;
-  color: var(--parchment);
-  line-height: 1.4;
-}
-.action-meta {
-  font-size: var(--text-sm);
-  color: var(--slate);
-  margin-top: 2px;
-}
-
-/* ─── TEAMS CHANNELS ──────────────────────────────────── */
-.channel-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
-}
-.channel-item:last-child { border-bottom: none; }
-.channel-hash {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: var(--raised);
-  border: 1px solid var(--border2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-lg);
-  font-weight: 700;
-  color: var(--gold);
-  flex-shrink: 0;
-  font-family: 'Courier New', monospace;
-}
-.channel-name {
-  font-size: var(--text-base);
-  font-weight: 700;
-  color: var(--parchment);
-  display: block;
-  margin-bottom: 2px;
-}
-.channel-desc {
-  font-size: var(--text-sm);
-  color: var(--slate);
-  line-height: 1.5;
-}
-
-/* ─── TEAM MEMBERS ────────────────────────────────────── */
-.member-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-.member-item:last-child { border-bottom: none; }
-.member-avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--raised);
-  border: 1.5px solid var(--border2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-sm);
-  font-weight: 700;
-  color: var(--gold);
-  flex-shrink: 0;
-  font-family: 'Cinzel', serif;
-}
-.member-name {
-  font-size: var(--text-base);
-  font-weight: 700;
-  color: var(--parchment);
-  display: block;
-}
-.member-role {
-  font-size: var(--text-sm);
-  color: var(--slate);
-  display: block;
-}
-.member-badge {
-  margin-left: auto;
-  font-size: var(--text-sm);
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: 100px;
-  flex-shrink: 0;
-}
-.mb-founder { color: var(--gold);  background: var(--gold-faint); border: 1px solid var(--gold-dim); }
-.mb-aps     { color: var(--blue);  background: rgba(75,142,241,0.08); border: 1px solid rgba(75,142,241,0.25); }
-
-/* ─── FOOTER ──────────────────────────────────────────── */
-.footer {
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  align-items: center;
-  text-align: center;
-}
-.footer-studio {
-  font-family: 'Cinzel', serif;
-  font-size: var(--text-sm);
-  letter-spacing: 0.2em;
-  color: var(--slate);
-}
-.footer-studio span { color: var(--gold-dim); }
-.footer-meta {
-  font-size: var(--text-xs);
-  color: var(--border2);
-  letter-spacing: 0.08em;
-}
-
-/* ─── SCROLLBAR ───────────────────────────────────────── */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: var(--deep); }
-::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-
+  --void:#0E0E0F; --panel:#161616; --panel-2:#1C1C1D; --line:#2A2A2A; --line-soft:#232323;
+  --gold:#D4AF6A; --gold-dim:#8B6F47; --gold-wash:rgba(212,175,106,0.08);
+  --teal:#5C7A72; --teal-wash:rgba(92,122,114,0.12);
+  --parchment:#E8E2D6; --ink:#B8B2A6; --ink-dim:#6B6862;
+  --ok:#7FA68F; --warn:#D4A24E; --crit:#B8654F; --white:#FAF8F4;
+  --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+html { font-size:16px; -webkit-text-size-adjust:100%; }
+body { background:var(--void); color:var(--parchment); font-family:var(--sans); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+.calbar { height:4px; width:100%; display:flex; position:fixed; top:0; left:0; right:0; z-index:999; }
+.calbar div { flex:1; }
+.cb1{background:#3B3B3B}.cb2{background:#8B8B8B}.cb3{background:#D4AF6A}
+.cb4{background:#5C7A72}.cb5{background:#B8654F}.cb6{background:#7FA68F}
+.cb7{background:#8B6F47}.cb8{background:#E8E2D6}
+.shell { display:flex; flex-direction:column; min-height:100vh; padding-top:4px; }
+.topbar { display:flex; align-items:center; justify-content:space-between; padding:18px 28px; border-bottom:1px solid var(--line); background:var(--void); }
+.brand { display:flex; align-items:baseline; gap:10px; }
+.brand-mark { font-family:var(--serif); font-weight:500; font-size:1.5rem; letter-spacing:0.01em; color:var(--white); }
+.brand-mark em { color:var(--gold); font-style:normal; }
+.session-info { display:flex; align-items:center; gap:18px; }
+.session-clock { font-family:'Inter',monospace; font-size:0.78rem; color:var(--ink); letter-spacing:0.02em; font-variant-numeric:tabular-nums; }
+.session-live { display:flex; align-items:center; gap:7px; padding:5px 12px; border:1px solid var(--line); border-radius:3px; }
+.live-dot { width:5px; height:5px; border-radius:50%; background:var(--ok); animation:livedot 2.4s ease-in-out infinite; }
+@keyframes livedot { 0%,100%{opacity:1} 50%{opacity:.35} }
+.session-live span { font-size:0.65rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink); font-weight:600; }
+.main { display:flex; flex:1; min-height:0; }
+.page-rail { width:96px; flex-shrink:0; border-right:1px solid var(--line); display:flex; flex-direction:column; padding:24px 0; background:var(--panel); }
+.page-btn { display:flex; flex-direction:column; align-items:center; gap:8px; padding:16px 8px; cursor:pointer; border:none; background:none; position:relative; color:var(--ink-dim); transition:color 0.25s; font-family:var(--sans); }
+.page-btn::before { content:''; position:absolute; left:0; top:8px; bottom:8px; width:2px; background:transparent; transition:background 0.25s; }
+.page-btn:hover { color:var(--ink); }
+.page-btn.active { color:var(--gold); }
+.page-btn.active::before { background:var(--gold); }
+.page-icon { width:26px; height:26px; display:flex; align-items:center; justify-content:center; }
+.page-icon svg { width:100%; height:100%; }
+.page-label { font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; }
+.canvas { flex:1; min-width:0; overflow-y:auto; padding:36px 40px 80px; }
+.canvas-inner { max-width:1180px; margin:0 auto; }
+.page { display:none; animation:fadein 0.4s ease; }
+.page.active { display:block; }
+@keyframes fadein { from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)} }
+.page-head { margin-bottom:32px; padding-bottom:22px; border-bottom:1px solid var(--line); }
+.page-eyebrow { font-size:0.68rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:8px; }
+.page-title { font-family:var(--serif); font-size:clamp(1.7rem,3.4vw,2.4rem); font-weight:500; color:var(--white); letter-spacing:-0.01em; }
+.page-desc { font-size:0.92rem; color:var(--ink); margin-top:8px; max-width:560px; line-height:1.6; }
+.deck { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:28px; border-radius:6px; overflow:hidden; }
+@media (min-width:720px) { .deck { grid-template-columns:repeat(4,1fr); } }
+.stat { background:var(--panel); padding:22px 20px; position:relative; }
+.stat-num { font-family:var(--serif); font-size:2.1rem; font-weight:500; color:var(--white); line-height:1; margin-bottom:6px; }
+.stat-num.gold { color:var(--gold); }
+.stat-label { font-size:0.66rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-dim); font-weight:600; }
+.stat-foot { font-size:0.72rem; color:var(--ink); margin-top:6px; }
+.stat-foot.ok { color:var(--ok); }
+.stat-foot.warn { color:var(--warn); }
+.panel { background:var(--panel); border:1px solid var(--line); border-radius:6px; margin-bottom:20px; overflow:hidden; }
+.panel-head { display:flex; align-items:center; justify-content:space-between; padding:16px 22px; border-bottom:1px solid var(--line); }
+.panel-title { font-size:0.74rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:700; color:var(--ink); display:flex; align-items:center; gap:8px; }
+.panel-title::before { content:''; width:6px; height:6px; background:var(--gold); border-radius:1px; transform:rotate(45deg); }
+.panel-body { padding:22px; }
+.grid-2 { display:grid; grid-template-columns:1fr; gap:20px; }
+@media (min-width:900px) { .grid-2 { grid-template-columns:1.6fr 1fr; } }
+.proj-card { border:1px solid var(--line); border-radius:5px; padding:18px 20px; margin-bottom:12px; background:var(--panel-2); transition:border-color 0.2s; }
+.proj-card:last-child { margin-bottom:0; }
+.proj-card:hover { border-color:var(--gold-dim); }
+.proj-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; gap:12px; flex-wrap:wrap; }
+.proj-id { font-family:'Inter',monospace; font-size:0.66rem; letter-spacing:0.06em; color:var(--gold-dim); display:block; margin-bottom:4px; }
+.proj-name { font-size:1.02rem; font-weight:600; color:var(--white); }
+.proj-client { font-size:0.78rem; color:var(--ink); margin-top:2px; }
+.tag { display:inline-flex; align-items:center; gap:5px; padding:4px 11px; border-radius:100px; font-size:0.66rem; font-weight:700; letter-spacing:0.03em; white-space:nowrap; }
+.tag-dot { width:5px; height:5px; border-radius:50%; background:currentColor; }
+.tag.t-active { background:rgba(127,166,143,0.12); color:var(--ok); }
+.tag.t-review { background:rgba(212,162,78,0.12); color:var(--warn); }
+.tag.t-grading { background:var(--gold-wash); color:var(--gold); }
+.tag.t-delivered { background:var(--teal-wash); color:var(--teal); }
+.tag.t-inquiry { background:rgba(184,178,166,0.1); color:var(--ink); }
+.proj-pipeline { display:flex; gap:3px; margin-top:14px; }
+.pp-seg { flex:1; height:4px; border-radius:2px; background:var(--line); }
+.pp-seg.filled { background:var(--gold); }
+.pp-seg.current { background:var(--gold); position:relative; }
+.proj-meta { display:flex; justify-content:space-between; margin-top:10px; font-size:0.72rem; color:var(--ink-dim); }
+.proj-meta .val { color:var(--ink); font-weight:600; }
+.tbl { width:100%; border-collapse:collapse; }
+.tbl th { text-align:left; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-dim); font-weight:700; padding:0 14px 12px 0; border-bottom:1px solid var(--line); }
+.tbl td { padding:14px 14px 14px 0; border-bottom:1px solid var(--line-soft); font-size:0.86rem; color:var(--parchment); vertical-align:middle; }
+.tbl tr:last-child td { border-bottom:none; }
+.pipe-strip { display:flex; overflow-x:auto; gap:0; padding:6px 0 4px; }
+.pipe-node { flex:1; min-width:84px; text-align:center; position:relative; padding:0 4px; }
+.pipe-node::after { content:''; position:absolute; top:17px; left:50%; width:100%; height:1px; background:var(--line); }
+.pipe-node:last-child::after { display:none; }
+.pipe-circ { width:34px; height:34px; border-radius:50%; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; background:var(--panel-2); border:1px solid var(--line); font-size:0.72rem; font-weight:700; color:var(--ink-dim); position:relative; z-index:1; }
+.pipe-circ.done { background:var(--gold); border-color:var(--gold); color:var(--void); }
+.pipe-circ.now { border:2px solid var(--gold); color:var(--gold); background:var(--void); box-shadow:0 0 0 4px var(--gold-wash); }
+.pipe-text { font-size:0.6rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink-dim); line-height:1.3; }
+.pipe-text.now { color:var(--gold); font-weight:700; }
+.act-row { display:flex; gap:14px; padding:13px 0; border-bottom:1px solid var(--line-soft); }
+.act-row:last-child { border-bottom:none; }
+.act-mark { width:4px; border-radius:2px; flex-shrink:0; background:var(--gold-dim); }
+.act-mark.gold { background:var(--gold); }
+.act-mark.ok { background:var(--ok); }
+.act-mark.teal { background:var(--teal); }
+.act-title { font-size:0.85rem; font-weight:600; color:var(--parchment); line-height:1.4; }
+.act-meta { font-size:0.72rem; color:var(--ink-dim); margin-top:3px; }
+.sop-row { display:flex; align-items:center; gap:14px; padding:14px 0; border-bottom:1px solid var(--line-soft); }
+.sop-row:last-child { border-bottom:none; }
+.sop-mk { width:22px; height:22px; border-radius:4px; border:1.5px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:700; flex-shrink:0; }
+.sop-mk.done { border-color:var(--ok); color:var(--ok); background:rgba(127,166,143,0.1); }
+.sop-mk.wip { border-color:var(--warn); color:var(--warn); background:rgba(212,162,78,0.1); }
+.sop-name { font-size:0.86rem; font-weight:600; color:var(--parchment); }
+.sop-sub { font-size:0.7rem; color:var(--ink-dim); font-family:monospace; margin-top:1px; }
+.sop-badge { margin-left:auto; font-size:0.66rem; font-weight:700; padding:4px 10px; border-radius:100px; white-space:nowrap; }
+.sop-badge.done { color:var(--ok); background:rgba(127,166,143,0.1); }
+.sop-badge.wip { color:var(--warn); background:rgba(212,162,78,0.1); }
+.sop-badge.todo { color:var(--ink-dim); background:var(--panel-2); }
+.eq-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--line-soft); gap:12px; }
+.eq-row:last-child { border-bottom:none; }
+.eq-name { font-size:0.86rem; font-weight:600; color:var(--parchment); }
+.eq-spec { font-size:0.7rem; color:var(--ink-dim); font-family:monospace; margin-top:2px; }
+.eq-status { font-size:0.64rem; font-weight:700; padding:4px 10px; border-radius:100px; white-space:nowrap; }
+.eq-status.live { color:var(--ok); background:rgba(127,166,143,0.1); }
+.phase-row { padding:18px 0; border-bottom:1px solid var(--line-soft); }
+.phase-row:last-child { border-bottom:none; }
+.phase-top { display:flex; justify-content:space-between; margin-bottom:6px; }
+.phase-tag { font-size:0.66rem; font-family:monospace; color:var(--gold-dim); letter-spacing:0.06em; }
+.phase-pct { font-size:0.72rem; font-weight:700; color:var(--ink); }
+.phase-nm { font-size:0.92rem; font-weight:700; color:var(--parchment); margin-bottom:8px; }
+.bar-track { height:5px; background:var(--line); border-radius:3px; overflow:hidden; }
+.bar-fill { height:100%; background:linear-gradient(90deg,var(--gold-dim),var(--gold)); border-radius:3px; transition:width 1.2s ease; }
+.bar-fill.full { background:linear-gradient(90deg,#5C8C6E,var(--ok)); }
+.foot { margin-top:40px; padding-top:24px; border-top:1px solid var(--line); text-align:center; }
+.foot-mark { font-family:var(--serif); font-size:0.85rem; color:var(--ink-dim); letter-spacing:0.06em; }
+.foot-mark em { color:var(--gold-dim); font-style:normal; }
+.foot-sub { font-size:0.62rem; color:var(--line); letter-spacing:0.08em; margin-top:5px; }
+@media (max-width:760px) {
+  .main { flex-direction:column; }
+  .page-rail { width:100%; flex-direction:row; overflow-x:auto; border-right:none; border-top:1px solid var(--line); order:2; padding:8px 4px; position:sticky; bottom:0; z-index:50; }
+  .page-btn { flex-direction:column; flex-shrink:0; min-width:68px; padding:8px 6px; }
+  .page-btn::before { left:8px; right:8px; top:auto; bottom:0; height:2px; width:auto; }
+  .canvas { order:1; padding:22px 16px 24px; }
+  .topbar { padding:14px 16px; }
+  .session-clock { display:none; }
+  .deck { grid-template-columns:repeat(2,1fr); }
+  .grid-2 { grid-template-columns:1fr; }
+}
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:var(--void); }
+::-webkit-scrollbar-thumb { background:var(--line); border-radius:3px; }
 </style>
 </head>
 <body>
-
-<div class="signal-bar"></div>
-
-<!-- ═══════════ BANNER ══════════════════════════════════ -->
-<div class="banner">
-  <div class="banner-line"></div>
-
-  <!-- Waveform background -->
-  <div class="banner-bg">
-    <svg viewBox="0 0 1200 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#C9A84C" fill="none">
-        <polyline stroke-width="1.5" opacity="1"
-          points="0,100 30,100 40,50 50,150 60,35 70,165 80,70 90,135 100,45 110,160 120,75 130,140 140,95 160,100 180,100 200,40 220,160 240,30 260,170 280,80 300,140 320,55 340,155 360,85 380,125 400,100 420,100 440,45 460,160 480,35 500,165 520,75 540,135 560,50 580,155 600,80 620,130 640,100 660,100 680,40 700,160 720,30 740,170 760,75 780,140 800,50 820,155 840,82 860,128 880,100 900,100 920,45 940,160 960,35 980,165 1000,78 1020,138 1040,52 1060,158 1080,82 1100,128 1120,100 1140,100 1200,100"/>
-        <polyline stroke-width="0.7" opacity="0.5"
-          points="0,100 20,88 40,112 60,85 80,115 100,90 120,110 140,100 160,88 180,112 200,85 220,115 240,90 260,110 280,100 300,88 320,112 340,85 360,115 380,90 400,110 420,100 440,88 460,112 480,85 500,115 520,90 540,110 560,100 580,88 600,112 620,85 640,115 660,90 680,110 700,100 720,88 740,112 760,85 780,115 800,90 820,110 840,100 860,88 880,112 900,85 920,115 940,90 960,110 980,100 1000,88 1020,112 1040,85 1060,115 1080,90 1100,110 1120,100 1200,100"/>
-      </g>
-      <!-- Vectorscope -->
-      <g stroke="#C9A84C" fill="none" opacity="0.5" transform="translate(1050,100)">
-        <circle cx="0" cy="0" r="80" stroke-width="0.5"/>
-        <circle cx="0" cy="0" r="55" stroke-width="0.5"/>
-        <circle cx="0" cy="0" r="28" stroke-width="0.5"/>
-        <line x1="0" y1="-88" x2="0" y2="88" stroke-width="0.4"/>
-        <line x1="-88" y1="0" x2="88" y2="0" stroke-width="0.4"/>
-        <line x1="0" y1="0" x2="58" y2="-58" stroke-width="0.8" stroke-dasharray="3,4"/>
-        <circle cx="0" cy="-80" r="3" fill="#C9A84C"/>
-        <circle cx="80" cy="0" r="3" fill="#C9A84C"/>
-      </g>
-    </svg>
+<div class="calbar"><div class="cb1"></div><div class="cb2"></div><div class="cb3"></div><div class="cb4"></div><div class="cb5"></div><div class="cb6"></div><div class="cb7"></div><div class="cb8"></div></div>
+<div class="shell">
+  <div class="topbar">
+    <div class="brand"><span class="brand-mark">Fulgent Post <em>Atelier</em></span></div>
+    <div class="session-info">
+      <span class="session-clock" id="clock"></span>
+      <div class="session-live"><div class="live-dot"></div><span>Studio Live</span></div>
+    </div>
   </div>
+  <div class="main">
+    <nav class="page-rail">
+      <button class="page-btn active" data-page="overview" onclick="goPage('overview',this)">
+        <span class="page-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <span class="page-label">Overview</span>
+      </button>
+      <button class="page-btn" data-page="projects" onclick="goPage('projects',this)">
+        <span class="page-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <span class="page-label">Projects</span>
+      </button>
+      <button class="page-btn" data-page="pipeline" onclick="goPage('pipeline',this)">
+        <span class="page-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="2.2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="6" r="2.2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="18" r="2.2" stroke="currentColor" stroke-width="1.5"/><circle cx="19" cy="12" r="2.2" stroke="currentColor" stroke-width="1.5"/><path d="M7 11l3-3M7 13l3 3M14 7l3 3M14 17l3-3" stroke="currentColor" stroke-width="1.3"/></svg></span>
+        <span class="page-label">Pipeline</span>
+      </button>
+      <button class="page-btn" data-page="finance" onclick="goPage('finance',this)">
+        <span class="page-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 6.5c0-1.93-2.24-3.5-5-3.5S7 4.57 7 6.5 9.24 10 12 10s5 1.57 5 3.5-2.24 3.5-5 3.5-5-1.57-5-3.5" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <span class="page-label">Finance</span>
+      </button>
+      <button class="page-btn" data-page="standards" onclick="goPage('standards',this)">
+        <span class="page-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M9 11l2 2 4-4M4 6a2 2 0 012-2h12a2 2 0 012 2v14l-3-2-3 2-3-2-3 2-3-2-3 2V6z" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <span class="page-label">SOPs</span>
+      </button>
+      <button class="page-btn" data-page="suite" onclick="goPage('suite',this)">
+        <span class="page-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="13" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <span class="page-label">Suite</span>
+      </button>
+      <button class="page-btn" data-page="vision" onclick="goPage('vision',this)">
+        <span class="page-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <span class="page-label">Vision</span>
+      </button>
+    </nav>
+    <div class="canvas">
+      <div class="canvas-inner">
 
-  <div class="banner-overlay"></div>
-  <div class="banner-glow"></div>
+        <section id="page-overview" class="page active">
+          <div class="page-head">
+            <div class="page-eyebrow">Studio Status</div>
+            <div class="page-title">Good morning, Lawrence</div>
+            <div class="page-desc">Your studio operations at a glance — projects, pipeline health, and what needs your attention this week.</div>
+          </div>
+          <div class="deck">
+            <div class="stat"><div class="stat-num gold">2</div><div class="stat-label">Active Projects</div><div class="stat-foot">1 grading · 1 in review</div></div>
+            <div class="stat"><div class="stat-num">63K</div><div class="stat-label">Received — June</div><div class="stat-foot ok">2 deposits confirmed</div></div>
+            <div class="stat"><div class="stat-num">350K</div><div class="stat-label">Monthly Target</div><div class="stat-foot">KES · 18% achieved</div></div>
+            <div class="stat"><div class="stat-num">3<span style="font-size:1.1rem;color:var(--ink-dim)">/7</span></div><div class="stat-label">SOPs Complete</div><div class="stat-foot warn">4 remaining</div></div>
+          </div>
+          <div class="grid-2">
+            <div>
+              <div class="panel">
+                <div class="panel-head"><span class="panel-title">Active Projects</span></div>
+                <div class="panel-body">
+                  <div class="proj-card">
+                    <div class="proj-top">
+                      <div><span class="proj-id">SYNC-MV-002</span><div class="proj-name">Barua ya Moyo — Music Video</div><div class="proj-client">Sync Films Ltd</div></div>
+                      <span class="tag t-review"><span class="tag-dot"></span>In Review</span>
+                    </div>
+                    <div class="proj-pipeline"><div class="pp-seg filled"></div><div class="pp-seg filled"></div><div class="pp-seg filled"></div><div class="pp-seg current"></div><div class="pp-seg"></div><div class="pp-seg"></div><div class="pp-seg"></div><div class="pp-seg"></div><div class="pp-seg"></div></div>
+                    <div class="proj-meta"><span>Deadline <span class="val">15 Jul 2026</span></span><span>Value <span class="val">KES 35,000</span></span></div>
+                  </div>
+                  <div class="proj-card">
+                    <div class="proj-top">
+                      <div><span class="proj-id">AFRO-TVC-003</span><div class="proj-name">Indomie TVC — 30sec</div><div class="proj-client">AfroWave Productions</div></div>
+                      <span class="tag t-grading"><span class="tag-dot"></span>Grading</span>
+                    </div>
+                    <div class="proj-pipeline"><div class="pp-seg filled"></div><div class="pp-seg filled"></div><div class="pp-seg current"></div><div class="pp-seg"></div><div class="pp-seg"></div><div class="pp-seg"></div><div class="pp-seg"></div><div class="pp-seg"></div><div class="pp-seg"></div></div>
+                    <div class="proj-meta"><span>Deadline <span class="val">28 Jul 2026</span></span><span>Value <span class="val">KES 55,000</span></span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-head"><span class="panel-title">This Week</span></div>
+                <div class="panel-body" style="padding:10px 22px;">
+                  <div class="act-row"><div class="act-mark gold"></div><div><div class="act-title">Send V03 revision to Sync Films</div><div class="act-meta">SYNC-MV-002 · Due Friday</div></div></div>
+                  <div class="act-row"><div class="act-mark teal"></div><div><div class="act-title">Complete hero frame grade — Indomie TVC</div><div class="act-meta">AFRO-TVC-003 · In progress</div></div></div>
+                  <div class="act-row"><div class="act-mark ok"></div><div><div class="act-title">Run weekly backup — external SSD</div><div class="act-meta">Every Friday</div></div></div>
+                  <div class="act-row"><div class="act-mark gold"></div><div><div class="act-title">Review SOP-04 QC Checklist</div><div class="act-meta">In progress this week</div></div></div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="panel">
+                <div class="panel-head"><span class="panel-title">Revenue Progress</span></div>
+                <div class="panel-body">
+                  <div class="phase-row" style="padding-top:0">
+                    <div class="phase-top"><span class="phase-tag">JUNE TARGET</span><span class="phase-pct">18%</span></div>
+                    <div class="bar-track"><div class="bar-fill" style="width:18%"></div></div>
+                  </div>
+                  <div style="margin-top:18px; display:flex; flex-direction:column; gap:10px;">
+                    <div style="display:flex; justify-content:space-between; font-size:0.82rem;"><span style="color:var(--ink)">Received</span><span style="font-weight:700; color:var(--ok)">KES 63,000</span></div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.82rem;"><span style="color:var(--ink)">Outstanding</span><span style="font-weight:700; color:var(--warn)">KES 27,000</span></div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.82rem; padding-top:10px; border-top:1px solid var(--line-soft);"><span style="color:var(--ink)">Target</span><span style="font-weight:700; color:var(--gold)">KES 350,000</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-head"><span class="panel-title">Recent Deliveries</span></div>
+                <div class="panel-body" style="padding:10px 22px;">
+                  <div class="act-row"><div class="act-mark ok"></div><div><div class="act-title">Kienyeji Feature Film</div><div class="act-meta">Cool Beans Media · Delivered Mar 2024</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-  <div class="banner-inner">
-    <div class="banner-top">
-      <div class="banner-icon">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <rect x="2" y="2" width="20" height="20" rx="1.5" stroke="#C9A84C" stroke-width="1.2"/>
-          <circle cx="12" cy="12" r="4.5" stroke="#C9A84C" stroke-width="1.2"/>
-          <circle cx="12" cy="12" r="1.5" fill="#C9A84C"/>
-          <line x1="12" y1="2" x2="12" y2="6.5" stroke="#C9A84C" stroke-width="1.2"/>
-          <line x1="12" y1="17.5" x2="12" y2="22" stroke="#C9A84C" stroke-width="1.2"/>
-          <line x1="2" y1="12" x2="6.5" y2="12" stroke="#C9A84C" stroke-width="1.2"/>
-          <line x1="17.5" y1="12" x2="22" y2="12" stroke="#C9A84C" stroke-width="1.2"/>
-        </svg>
+        <section id="page-projects" class="page">
+          <div class="page-head">
+            <div class="page-eyebrow">Project Registry</div>
+            <div class="page-title">Projects</div>
+            <div class="page-desc">Every project that has passed through the studio, tracked from inquiry to archive.</div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><span class="panel-title">All Projects</span></div>
+            <div class="panel-body" style="padding:0 22px;">
+              <div style="overflow-x:auto;">
+                <table class="tbl">
+                  <thead><tr><th>Project</th><th>Client</th><th>Stage</th><th>Deadline</th><th>Value</th></tr></thead>
+                  <tbody>
+                    <tr><td><span class="proj-id" style="display:block;margin-bottom:2px;">COOL-KNJ-001</span><strong>Kienyeji Feature Film</strong></td><td>Cool Beans Media</td><td><span class="tag t-delivered"><span class="tag-dot"></span>Delivered</span></td><td style="color:var(--ink-dim)">Mar 2024</td><td><strong>KES 100,000</strong></td></tr>
+                    <tr><td><span class="proj-id" style="display:block;margin-bottom:2px;">SYNC-MV-002</span><strong>Barua ya Moyo</strong></td><td>Sync Films Ltd</td><td><span class="tag t-review"><span class="tag-dot"></span>In Review</span></td><td style="color:var(--warn)">15 Jul 2026</td><td><strong>KES 35,000</strong></td></tr>
+                    <tr><td><span class="proj-id" style="display:block;margin-bottom:2px;">AFRO-TVC-003</span><strong>Indomie TVC</strong></td><td>AfroWave Productions</td><td><span class="tag t-grading"><span class="tag-dot"></span>Grading</span></td><td style="color:var(--ink-dim)">28 Jul 2026</td><td><strong>KES 55,000</strong></td></tr>
+                    <tr><td><span class="proj-id" style="display:block;margin-bottom:2px;">[NEXT]</span><span style="color:var(--ink-dim)">New project template</span></td><td style="color:var(--ink-dim)">—</td><td><span class="tag t-inquiry"><span class="tag-dot"></span>Available</span></td><td style="color:var(--ink-dim)">—</td><td style="color:var(--ink-dim)">—</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><span class="panel-title">Client Directory</span></div>
+            <div class="panel-body" style="padding:10px 22px;">
+              <div class="act-row"><div class="act-mark gold"></div><div><div class="act-title">Cool Beans Media</div><div class="act-meta">Oscar Oliver Ochanda · Production House · 1 project completed</div></div></div>
+              <div class="act-row"><div class="act-mark gold"></div><div><div class="act-title">Sync Films Ltd</div><div class="act-meta">Amira Njoroge · Production House · 1 project active</div></div></div>
+              <div class="act-row"><div class="act-mark gold"></div><div><div class="act-title">AfroWave Productions</div><div class="act-meta">David Kamau · Agency · 1 project active</div></div></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="page-pipeline" class="page">
+          <div class="page-head">
+            <div class="page-eyebrow">Production System</div>
+            <div class="page-title">The Nine-Stage Pipeline</div>
+            <div class="page-desc">Every project moves through the same disciplined process — from first inquiry to final archive.</div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><span class="panel-title">Current Position — SYNC-MV-002</span></div>
+            <div class="panel-body">
+              <div class="pipe-strip">
+                <div class="pipe-node"><div class="pipe-circ done">✓</div><div class="pipe-text">Brief</div></div>
+                <div class="pipe-node"><div class="pipe-circ done">✓</div><div class="pipe-text">Ingest</div></div>
+                <div class="pipe-node"><div class="pipe-circ done">✓</div><div class="pipe-text">Prep</div></div>
+                <div class="pipe-node"><div class="pipe-circ now">4</div><div class="pipe-text now">Review</div></div>
+                <div class="pipe-node"><div class="pipe-circ">5</div><div class="pipe-text">Feedback</div></div>
+                <div class="pipe-node"><div class="pipe-circ">6</div><div class="pipe-text">Grade</div></div>
+                <div class="pipe-node"><div class="pipe-circ">7</div><div class="pipe-text">Export</div></div>
+                <div class="pipe-node"><div class="pipe-circ">8</div><div class="pipe-text">Delivery</div></div>
+                <div class="pipe-node"><div class="pipe-circ">9</div><div class="pipe-text">Archive</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><span class="panel-title">Stage Definitions</span></div>
+            <div class="panel-body" style="padding:0 22px;">
+              <table class="tbl">
+                <thead><tr><th>#</th><th>Stage</th><th>Activity</th><th>System</th></tr></thead>
+                <tbody>
+                  <tr><td style="color:var(--gold-dim);font-family:monospace">01</td><td><strong>Client Brief</strong></td><td style="color:var(--ink)">Inquiry, scope, quotation, agreement</td><td style="color:var(--ink-dim);font-size:0.78rem">CRM + Website</td></tr>
+                  <tr><td style="color:var(--gold-dim);font-family:monospace">02</td><td><strong>Media Ingest</strong></td><td style="color:var(--ink)">Camera media received, copied, verified</td><td style="color:var(--ink-dim);font-size:0.78rem">OneDrive + SSD</td></tr>
+                  <tr><td style="color:var(--gold-dim);font-family:monospace">03</td><td><strong>Online & Prep</strong></td><td style="color:var(--ink)">Conform, relink, pre-grade setup</td><td style="color:var(--ink-dim);font-size:0.78rem">DaVinci Resolve</td></tr>
+                  <tr><td style="color:var(--gold-dim);font-family:monospace">04</td><td><strong>Client Review</strong></td><td style="color:var(--ink)">Password-protected review with version tracking</td><td style="color:var(--ink-dim);font-size:0.78rem">Vimeo</td></tr>
+                  <tr><td style="color:var(--gold-dim);font-family:monospace">05</td><td><strong>Feedback Loop</strong></td><td style="color:var(--ink)">Revision notes, approvals</td><td style="color:var(--ink-dim);font-size:0.78rem">Vimeo + SOPs</td></tr>
+                  <tr><td style="color:var(--gold-dim);font-family:monospace">06</td><td><strong>Final Grade</strong></td><td style="color:var(--ink)">Color grading, online edit, finishing</td><td style="color:var(--ink-dim);font-size:0.78rem">DaVinci Resolve</td></tr>
+                  <tr><td style="color:var(--gold-dim);font-family:monospace">07</td><td><strong>Export</strong></td><td style="color:var(--ink)">High-resolution deliverable rendering</td><td style="color:var(--ink-dim);font-size:0.78rem">Resolve Render</td></tr>
+                  <tr><td style="color:var(--gold-dim);font-family:monospace">08</td><td><strong>Secure Delivery</strong></td><td style="color:var(--ink)">Final master delivered to client</td><td style="color:var(--ink-dim);font-size:0.78rem">MASV / Cloud</td></tr>
+                  <tr><td style="color:var(--gold-dim);font-family:monospace">09</td><td><strong>Archive</strong></td><td style="color:var(--ink)">Long-term storage, redundancy</td><td style="color:var(--ink-dim);font-size:0.78rem">OneDrive + SSD</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="page-finance" class="page">
+          <div class="page-head">
+            <div class="page-eyebrow">Studio Finance</div>
+            <div class="page-title">Finance & Billing</div>
+            <div class="page-desc">Invoices, payment status, and progress toward your monthly target.</div>
+          </div>
+          <div class="deck">
+            <div class="stat"><div class="stat-num">63K</div><div class="stat-label">Received — June</div><div class="stat-foot ok">2 deposits confirmed</div></div>
+            <div class="stat"><div class="stat-num">27K</div><div class="stat-label">Outstanding</div><div class="stat-foot warn">1 balance pending</div></div>
+            <div class="stat"><div class="stat-num gold">350K</div><div class="stat-label">Monthly Target</div><div class="stat-foot">18% achieved</div></div>
+            <div class="stat"><div class="stat-num">70/30</div><div class="stat-label">Payment Split</div><div class="stat-foot">Deposit / Balance</div></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><span class="panel-title">Invoice Register</span></div>
+            <div class="panel-body" style="padding:0 22px;">
+              <div style="overflow-x:auto;">
+                <table class="tbl">
+                  <thead><tr><th>Invoice</th><th>Client</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td style="font-family:monospace;color:var(--gold-dim)">FPH-2026-001</td><td>Sync Films Ltd</td><td style="color:var(--ink)">Deposit 70%</td><td><strong>KES 24,500</strong></td><td><span class="tag t-delivered" style="font-size:0.62rem">PAID</span></td></tr>
+                    <tr><td style="font-family:monospace;color:var(--gold-dim)">FPH-2026-002</td><td>AfroWave Productions</td><td style="color:var(--ink)">Deposit 70%</td><td><strong>KES 38,500</strong></td><td><span class="tag t-delivered" style="font-size:0.62rem">PAID</span></td></tr>
+                    <tr><td style="font-family:monospace;color:var(--gold-dim)">FPH-2026-003</td><td>Sync Films Ltd</td><td style="color:var(--ink)">Balance 30%</td><td><strong>KES 10,500</strong></td><td><span class="tag t-review" style="font-size:0.62rem">PENDING</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><span class="panel-title">Payment Policy</span></div>
+            <div class="panel-body" style="padding:10px 22px;">
+              <div class="act-row"><div class="act-mark gold"></div><div><div class="act-title">70% deposit required before any work begins</div></div></div>
+              <div class="act-row"><div class="act-mark gold"></div><div><div class="act-title">30% balance due before final master is released</div></div></div>
+              <div class="act-row"><div class="act-mark gold"></div><div><div class="act-title">Payment via M-Pesa Paybill or bank transfer only</div></div></div>
+              <div class="act-row"><div class="act-mark teal"></div><div><div class="act-title">Overdue invoices incur 2% monthly late fee</div></div></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="page-standards" class="page">
+          <div class="page-head">
+            <div class="page-eyebrow">Operating Standards</div>
+            <div class="page-title">Standard Operating Procedures</div>
+            <div class="page-desc">The documented procedures that keep every project consistent, regardless of who is in the chair.</div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><span class="panel-title">SOP Completion — 3 of 7</span></div>
+            <div class="panel-body" style="padding:8px 22px;">
+              <div class="sop-row"><div class="sop-mk done">✓</div><div><div class="sop-name">Media Ingest & Organisation</div><div class="sop-sub">SOP-01</div></div><span class="sop-badge done">Complete</span></div>
+              <div class="sop-row"><div class="sop-mk done">✓</div><div><div class="sop-name">Grading Session Workflow</div><div class="sop-sub">SOP-02</div></div><span class="sop-badge done">Complete</span></div>
+              <div class="sop-row"><div class="sop-mk done">✓</div><div><div class="sop-name">Client Review & Feedback</div><div class="sop-sub">SOP-03</div></div><span class="sop-badge done">Complete</span></div>
+              <div class="sop-row"><div class="sop-mk wip">!</div><div><div class="sop-name">QC Checklist</div><div class="sop-sub">SOP-04</div></div><span class="sop-badge wip">In Progress</span></div>
+              <div class="sop-row"><div class="sop-mk"></div><div><div class="sop-name">Delivery & Archiving</div><div class="sop-sub">SOP-05</div></div><span class="sop-badge todo">To Do</span></div>
+              <div class="sop-row"><div class="sop-mk"></div><div><div class="sop-name">Client Inquiry & Onboarding</div><div class="sop-sub">SOP-06</div></div><span class="sop-badge todo">To Do</span></div>
+              <div class="sop-row"><div class="sop-mk"></div><div><div class="sop-name">Backup & Storage Protocol</div><div class="sop-sub">SOP-07</div></div><span class="sop-badge todo">To Do</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="page-suite" class="page">
+          <div class="page-head">
+            <div class="page-eyebrow">Grading Suite</div>
+            <div class="page-title">Equipment Inventory</div>
+            <div class="page-desc">Your calibrated grading environment, configured to international finishing house standards.</div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><span class="panel-title">Suite Hardware</span></div>
+            <div class="panel-body" style="padding:8px 22px;">
+              <div class="eq-row"><div><div class="eq-name">LG OLED C3 — Calibrated</div><div class="eq-spec">Reference Display · Rec.709 · D65 · 100 nits SDR</div></div><span class="eq-status live">Live</span></div>
+              <div class="eq-row"><div><div class="eq-name">Blackmagic DeckLink 4K</div><div class="eq-spec">Video I/O · SDI/HDMI · 10-bit</div></div><span class="eq-status live">Live</span></div>
+              <div class="eq-row"><div><div class="eq-name">ASUS ProArt PA32UCR</div><div class="eq-spec">GUI Monitor · 4K · 99.5% Adobe RGB</div></div><span class="eq-status live">Live</span></div>
+              <div class="eq-row"><div><div class="eq-name">HP Z640 Workstation</div><div class="eq-spec">Xeon E5-2690 · 64GB RAM · RTX 3060 Ti</div></div><span class="eq-status live">Live</span></div>
+              <div class="eq-row"><div><div class="eq-name">DaVinci Resolve Mini Panel</div><div class="eq-spec">3 Trackballs · 12 Rings · USB-C</div></div><span class="eq-status live">Live</span></div>
+              <div class="eq-row"><div><div class="eq-name">M-Audio BX8 Monitors</div><div class="eq-spec">8" Kevlar · 37Hz–22kHz · Bi-amplified</div></div><span class="eq-status live">Live</span></div>
+              <div class="eq-row"><div><div class="eq-name">Video Scope Monitor</div><div class="eq-spec">Waveform · Vectorscope · RGB Parade</div></div><span class="eq-status live">Live</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="page-vision" class="page">
+          <div class="page-head">
+            <div class="page-eyebrow">The Long View</div>
+            <div class="page-title">Transformation Roadmap</div>
+            <div class="page-desc">Five phases. One direction. From a founder-led practice to an institution.</div>
+          </div>
+          <div class="panel">
+            <div class="panel-body">
+              <div class="phase-row" style="padding-top:0">
+                <div class="phase-top"><span class="phase-tag">PHASE 0 · STABILISATION</span><span class="phase-pct" style="color:var(--ok)">Complete</span></div>
+                <div class="phase-nm">Foundation Secured</div>
+                <div class="bar-track"><div class="bar-fill full" style="width:100%"></div></div>
+              </div>
+              <div class="phase-row">
+                <div class="phase-top"><span class="phase-tag">PHASE 1 · INFRASTRUCTURE</span><span class="phase-pct">60%</span></div>
+                <div class="phase-nm">Operational Foundation</div>
+                <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
+              </div>
+              <div class="phase-row">
+                <div class="phase-top"><span class="phase-tag">PHASE 2 · PLATFORM</span><span class="phase-pct">10%</span></div>
+                <div class="phase-nm">Website & Client Portal</div>
+                <div class="bar-track"><div class="bar-fill" style="width:10%"></div></div>
+              </div>
+              <div class="phase-row">
+                <div class="phase-top"><span class="phase-tag">PHASE 3 · SYSTEMS</span><span class="phase-pct">0%</span></div>
+                <div class="phase-nm">Business Systems & CRM</div>
+                <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+              </div>
+              <div class="phase-row">
+                <div class="phase-top"><span class="phase-tag">PHASE 4 · MARKET</span><span class="phase-pct">0%</span></div>
+                <div class="phase-nm">Market Activation</div>
+                <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+              </div>
+              <div class="phase-row" style="border-bottom:none">
+                <div class="phase-top"><span class="phase-tag">PHASE 5 · ECOSYSTEM</span><span class="phase-pct">0%</span></div>
+                <div class="phase-nm">Scale & Expansion</div>
+                <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><span class="panel-title">Long-Term Vision</span></div>
+            <div class="panel-body">
+              <p style="font-size:0.92rem; line-height:1.7; color:var(--ink);">To become Kenya's leading high-end post-production studio, recognised for delivering world-class cinematic finishing that meets the standards of global platforms. Fulgent Post Atelier is built to be the trusted creative and technical partner for top brands, filmmakers, and international productions — combining precision technology with exceptional artistic execution, positioning Kenya as a competitive hub for premium post-production in Africa and beyond.</p>
+            </div>
+          </div>
+        </section>
+
       </div>
-      <div class="banner-location">East Africa · Nairobi, Kenya</div>
-    </div>
-
-    <div>
-      <div class="banner-title">FULGENT POST <span class="gold">ATELIER</span></div>
-      <div class="banner-sub">Operations Centre · Internal Command Dashboard</div>
-      <div class="banner-rule">
-        <div class="banner-rule-line"></div>
-        <div class="banner-rule-text">Color · Finish · Delivery</div>
-        <div class="banner-rule-line"></div>
-      </div>
-    </div>
-
-    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:space-between;">
-      <div class="banner-stats">
-        <div class="banner-stat">
-          <div class="banner-stat-val">4</div>
-          <div class="banner-stat-lbl">Years<br>Experience</div>
-        </div>
-        <div class="banner-stat-div"></div>
-        <div class="banner-stat">
-          <div class="banner-stat-val">350K</div>
-          <div class="banner-stat-lbl">Monthly<br>Target KES</div>
-        </div>
-        <div class="banner-stat-div"></div>
-        <div class="banner-stat">
-          <div class="banner-stat-val">9</div>
-          <div class="banner-stat-lbl">Stage<br>Pipeline</div>
-        </div>
-        <div class="banner-stat-div"></div>
-        <div class="banner-stat">
-          <div class="banner-stat-val">P1</div>
-          <div class="banner-stat-lbl">Current<br>Phase</div>
-        </div>
-      </div>
-      <div class="banner-status">
-        <div class="status-dot"></div>
-        <div class="status-text">Systems Operational</div>
+      <div class="foot">
+        <div class="foot-mark">Fulgent Post <em>Atelier</em></div>
+        <div class="foot-sub">COLOR · FINISH · DELIVERY · NAIROBI, KENYA</div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- ═══════════ NAV BAR ══════════════════════════════════ -->
-<nav class="navbar">
-  <div class="navbar-inner">
-    <button class="nav-btn active" onclick="showSection('dashboard',this)">Dashboard</button>
-    <button class="nav-btn" onclick="showSection('projects',this)">Projects</button>
-    <button class="nav-btn" onclick="showSection('teams',this)">Teams</button>
-    <button class="nav-btn" onclick="showSection('finance',this)">Finance</button>
-    <button class="nav-btn" onclick="showSection('sops',this)">SOPs</button>
-    <button class="nav-btn" onclick="showSection('equipment',this)">Equipment</button>
-    <button class="nav-btn" onclick="showSection('roadmap',this)">Roadmap</button>
-  </div>
-</nav>
-
-<!-- ═══════════ CONTENT ══════════════════════════════════ -->
-<div class="wrap">
-
-  <!-- ─── DASHBOARD ─────────────────────────────────── -->
-  <div id="dashboard" class="page-section active">
-
-    <div class="section-head">
-      <div class="section-eyebrow">Good morning, Lawrence</div>
-      <div class="section-title">Studio Overview</div>
-    </div>
-
-    <!-- KPIs -->
-    <div class="kpi-grid">
-      <div class="kpi-card c-gold">
-        <div class="kpi-label">Active Projects</div>
-        <div class="kpi-val gold">2</div>
-        <div class="kpi-sub">1 grading · 1 review</div>
-      </div>
-      <div class="kpi-card c-green">
-        <div class="kpi-label">Revenue — June</div>
-        <div class="kpi-val">63K</div>
-        <div class="kpi-sub"><span class="up">↑ Deposits received</span></div>
-      </div>
-      <div class="kpi-card c-amber">
-        <div class="kpi-label">Pending Actions</div>
-        <div class="kpi-val">5</div>
-        <div class="kpi-sub"><span class="warn">Requires attention</span></div>
-      </div>
-      <div class="kpi-card c-blue">
-        <div class="kpi-label">Monthly Target</div>
-        <div class="kpi-val">350K</div>
-        <div class="kpi-sub">KES · 18% achieved</div>
-      </div>
-      <div class="kpi-card c-grey">
-        <div class="kpi-label">SOPs Complete</div>
-        <div class="kpi-val">3<span style="font-size:1.2rem;color:var(--slate)">/7</span></div>
-        <div class="kpi-sub">4 remaining</div>
-      </div>
-    </div>
-
-    <div class="two-col">
-      <div>
-        <!-- Quick Actions -->
-        <div class="panel" style="margin-bottom:16px;">
-          <div class="panel-head">
-            <span class="panel-title">This Week — Action Items</span>
-          </div>
-          <div class="panel-body" style="padding:8px 20px;">
-            <div class="action-item">
-              <div class="action-num ai-amber">01</div>
-              <div>
-                <div class="action-title">Send withdrawal notice to THRS</div>
-                <div class="action-meta">APS-THRS-2026-W01 · Today</div>
-              </div>
-            </div>
-            <div class="action-item">
-              <div class="action-num ai-gold">02</div>
-              <div>
-                <div class="action-title">Send re-anchor letter to Lawrence</div>
-                <div class="action-meta">APS-FP-2026-02 · Today</div>
-              </div>
-            </div>
-            <div class="action-item">
-              <div class="action-num ai-blue">03</div>
-              <div>
-                <div class="action-title">Enforce MFA on all M365 accounts</div>
-                <div class="action-meta">admin.microsoft.com · Critical · Do now</div>
-              </div>
-            </div>
-            <div class="action-item">
-              <div class="action-num ai-green">04</div>
-              <div>
-                <div class="action-title">Set up Teams channels</div>
-                <div class="action-meta">9 channels to create · This week</div>
-              </div>
-            </div>
-            <div class="action-item">
-              <div class="action-num ai-gold">05</div>
-              <div>
-                <div class="action-title">Initiate domain transfer — fulgentpost.co.ke</div>
-                <div class="action-meta">Contact andysore4@gmail.com</div>
-              </div>
-            </div>
-            <div class="action-item">
-              <div class="action-num ai-blue">06</div>
-              <div>
-                <div class="action-title">Configure OneDrive backup schedule</div>
-                <div class="action-meta">External SSD + OneDrive sync · This week</div>
-              </div>
-            </div>
-            <div class="action-item">
-              <div class="action-num ai-green">07</div>
-              <div>
-                <div class="action-title">Await Dev SOW responses</div>
-                <div class="action-meta">APS-FP-DEV-SOW-2026 · 5 business days</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Recent Activity -->
-        <div class="panel">
-          <div class="panel-head">
-            <span class="panel-title">Recent Activity</span>
-          </div>
-          <div class="panel-body" style="padding:8px 20px;">
-            <div class="activity-item">
-              <div class="activity-icon ai-gold">📄</div>
-              <div>
-                <div class="activity-title">Operational Manual V2.0 delivered</div>
-                <div class="activity-meta">Today · APS-FP-OPS-MANUAL-V2-2026</div>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon ai-green">✓</div>
-              <div>
-                <div class="activity-title">M365 migration to OneDrive complete</div>
-                <div class="activity-meta">This week · Google Drive retired</div>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon ai-blue">🔗</div>
-              <div>
-                <div class="activity-title">SharePoint Operations site live</div>
-                <div class="activity-meta">fulgentpostatelier.sharepoint.com</div>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon ai-amber">⚠</div>
-              <div>
-                <div class="activity-title">THRS engagement closure initiated</div>
-                <div class="activity-meta">Jun 22 · Withdrawal notice drafted</div>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon ai-gold">🏢</div>
-              <div>
-                <div class="activity-title">Fulgent Post House incorporated</div>
-                <div class="activity-meta">Jun 2026 · Registration complete</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right column -->
-      <div>
-        <!-- Quick Links -->
-        <div class="panel" style="margin-bottom:16px;">
-          <div class="panel-head"><span class="panel-title">Quick Access</span></div>
-          <div class="links-grid">
-            <a class="qlink" href="#">
-              <div class="qlink-icon">📁</div>
-              <div><span class="qlink-name">Projects</span><span class="qlink-desc">All projects</span></div>
-            </a>
-            <a class="qlink" href="#">
-              <div class="qlink-icon">💰</div>
-              <div><span class="qlink-name">Finance</span><span class="qlink-desc">Invoices</span></div>
-            </a>
-            <a class="qlink" href="#">
-              <div class="qlink-icon">📋</div>
-              <div><span class="qlink-name">SOPs</span><span class="qlink-desc">Templates</span></div>
-            </a>
-            <a class="qlink" href="#">
-              <div class="qlink-icon">👥</div>
-              <div><span class="qlink-name">Clients</span><span class="qlink-desc">CRM</span></div>
-            </a>
-            <a class="qlink" href="#">
-              <div class="qlink-icon">🎬</div>
-              <div><span class="qlink-name">Vimeo</span><span class="qlink-desc">Reviews</span></div>
-            </a>
-            <a class="qlink" href="#">
-              <div class="qlink-icon">📊</div>
-              <div><span class="qlink-name">HubSpot</span><span class="qlink-desc">Pipeline</span></div>
-            </a>
-            <a class="qlink" href="#">
-              <div class="qlink-icon">🔒</div>
-              <div><span class="qlink-name">Admin</span><span class="qlink-desc">Settings</span></div>
-            </a>
-            <a class="qlink" href="#">
-              <div class="qlink-icon">📚</div>
-              <div><span class="qlink-name">Knowledge</span><span class="qlink-desc">Guides</span></div>
-            </a>
-          </div>
-        </div>
-
-        <!-- Finance Snapshot -->
-        <div class="panel" style="margin-bottom:16px;">
-          <div class="panel-head">
-            <span class="panel-title">Finance Snapshot</span>
-            <button class="panel-action" onclick="showSection('finance',document.querySelector('[onclick*=finance]'))">View →</button>
-          </div>
-          <div class="panel-body">
-            <div class="fin-row"><span class="fin-label">Received — June</span><span class="fin-val pos">KES 63,000</span></div>
-            <div class="fin-row"><span class="fin-label">Outstanding</span><span class="fin-val warn">KES 27,000</span></div>
-            <div class="fin-row"><span class="fin-label">Monthly Target</span><span class="fin-val gold">KES 350,000</span></div>
-            <div class="fin-row"><span class="fin-label">APS Retainer</span><span class="fin-val">KES 10,000/mo</span></div>
-            <div class="prog-wrap">
-              <div class="prog-head">
-                <span class="prog-label">June target progress</span>
-                <span class="prog-pct">18%</span>
-              </div>
-              <div class="prog-track"><div class="prog-fill" style="width:18%"></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Team -->
-        <div class="panel">
-          <div class="panel-head"><span class="panel-title">Studio Team</span></div>
-          <div class="panel-body" style="padding:8px 20px;">
-            <div class="member-item">
-              <div class="member-avatar">LO</div>
-              <div>
-                <span class="member-name">Lawrence Odiwuor</span>
-                <span class="member-role">Founder & Lead Colorist</span>
-              </div>
-              <span class="member-badge mb-founder">Founder</span>
-            </div>
-            <div class="member-item">
-              <div class="member-avatar" style="color:var(--blue)">BC</div>
-              <div>
-                <span class="member-name">Bill Clinton</span>
-                <span class="member-role">CEO, Audio Pine Solutions</span>
-              </div>
-              <span class="member-badge mb-aps">APS</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Weekly Rhythm -->
-    <div class="panel" style="margin-top:16px;">
-      <div class="panel-head"><span class="panel-title">Weekly Operating Rhythm</span></div>
-      <div class="panel-body">
-        <div class="week-grid">
-          <div class="week-day today">
-            <div class="day-name today-lbl">MON</div>
-            <div class="day-task">Set objectives. Review pipeline.</div>
-            <div class="day-pip"></div>
-          </div>
-          <div class="week-day">
-            <div class="day-name">TUE</div>
-            <div class="day-task">Primary grading session.</div>
-          </div>
-          <div class="week-day">
-            <div class="day-name">WED</div>
-            <div class="day-task">Client check-ins. Review links.</div>
-          </div>
-          <div class="week-day">
-            <div class="day-name">THU</div>
-            <div class="day-task">Business dev. Follow-ups.</div>
-          </div>
-          <div class="week-day">
-            <div class="day-name">FRI</div>
-            <div class="day-task">Backup. Finance. Week review.</div>
-            <div class="day-pip"></div>
-          </div>
-          <div class="week-day">
-            <div class="day-name">SAT</div>
-            <div class="day-task">Portfolio. Social content.</div>
-          </div>
-          <div class="week-day">
-            <div class="day-name">SUN</div>
-            <div class="day-task" style="color:var(--border2)">Rest.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /dashboard -->
-
-  <!-- ─── PROJECTS ───────────────────────────────────── -->
-  <div id="projects" class="page-section">
-    <div class="section-head">
-      <div class="section-eyebrow">Active Pipeline</div>
-      <div class="section-title">Projects</div>
-    </div>
-
-    <div class="panel" style="margin-bottom:16px;">
-      <div class="panel-head"><span class="panel-title">Current Projects</span></div>
-      <div class="panel-body" style="padding:0 20px;">
-        <div style="overflow-x:auto;">
-          <table class="proj-table">
-            <thead>
-              <tr>
-                <th>Project</th>
-                <th>Stage</th>
-                <th>Deadline</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <span class="proj-code">COOL-KNJ-001</span>
-                  <span class="proj-name">Kienyeji Feature Film</span>
-                  <span class="proj-client">Cool Beans Media</span>
-                </td>
-                <td><span class="badge delivered"><span class="badge-dot"></span>Delivered</span></td>
-                <td style="font-size:var(--text-sm);color:var(--slate-lt);">Mar 2024</td>
-                <td style="font-size:var(--text-base);font-weight:700;">100K</td>
-              </tr>
-              <tr>
-                <td>
-                  <span class="proj-code">SYNC-MV-002</span>
-                  <span class="proj-name">Barua ya Moyo — Music Video</span>
-                  <span class="proj-client">Sync Films Ltd</span>
-                </td>
-                <td><span class="badge review"><span class="badge-dot"></span>In Review</span></td>
-                <td style="font-size:var(--text-sm);color:var(--amber);">Jul 15, 2026</td>
-                <td style="font-size:var(--text-base);font-weight:700;">35K</td>
-              </tr>
-              <tr>
-                <td>
-                  <span class="proj-code">AFRO-TVC-003</span>
-                  <span class="proj-name">Indomie TVC — 30sec</span>
-                  <span class="proj-client">AfroWave Productions</span>
-                </td>
-                <td><span class="badge grading"><span class="badge-dot"></span>Grading</span></td>
-                <td style="font-size:var(--text-sm);color:var(--slate-lt);">Jul 28, 2026</td>
-                <td style="font-size:var(--text-base);font-weight:700;">55K</td>
-              </tr>
-              <tr>
-                <td>
-                  <span class="proj-code">FPH-SETUP-000</span>
-                  <span class="proj-name">Studio Infrastructure</span>
-                  <span class="proj-client">Internal · Audio Pine Solutions</span>
-                </td>
-                <td><span class="badge active"><span class="badge-dot"></span>Active</span></td>
-                <td style="font-size:var(--text-sm);color:var(--slate-lt);">Jul 22, 2026</td>
-                <td style="font-size:var(--text-base);font-weight:700;">175K</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- Pipeline tracker -->
-    <div class="panel">
-      <div class="panel-head">
-        <span class="panel-title">9-Stage Pipeline — SYNC-MV-002</span>
-      </div>
-      <div class="pipeline">
-        <div class="pipe-item">
-          <div class="pipe-dot-wrap"><div class="pipe-dot done">✓</div></div>
-          <div class="pipe-lbl">Client<br>Brief</div>
-        </div>
-        <div class="pipe-item">
-          <div class="pipe-dot-wrap"><div class="pipe-dot done">✓</div></div>
-          <div class="pipe-lbl">Media<br>Ingest</div>
-        </div>
-        <div class="pipe-item">
-          <div class="pipe-dot-wrap"><div class="pipe-dot done">✓</div></div>
-          <div class="pipe-lbl">Online<br>& Prep</div>
-        </div>
-        <div class="pipe-item">
-          <div class="pipe-dot-wrap"><div class="pipe-dot now">4</div></div>
-          <div class="pipe-lbl now">Client<br>Review</div>
-        </div>
-        <div class="pipe-item">
-          <div class="pipe-dot-wrap"><div class="pipe-dot">5</div></div>
-          <div class="pipe-lbl">Feedback<br>Loop</div>
-        </div>
-        <div class="pipe-item">
-          <div class="pipe-dot-wrap"><div class="pipe-dot">6</div></div>
-          <div class="pipe-lbl">Final<br>Grade</div>
-        </div>
-        <div class="pipe-item">
-          <div class="pipe-dot-wrap"><div class="pipe-dot">7</div></div>
-          <div class="pipe-lbl">Export</div>
-        </div>
-        <div class="pipe-item">
-          <div class="pipe-dot-wrap"><div class="pipe-dot">8</div></div>
-          <div class="pipe-lbl">Secure<br>Delivery</div>
-        </div>
-        <div class="pipe-item">
-          <div class="pipe-dot-wrap"><div class="pipe-dot">9</div></div>
-          <div class="pipe-lbl">Archive</div>
-        </div>
-      </div>
-    </div>
-  </div><!-- /projects -->
-
-  <!-- ─── TEAMS ──────────────────────────────────────── -->
-  <div id="teams" class="page-section">
-    <div class="section-head">
-      <div class="section-eyebrow">Communication Structure</div>
-      <div class="section-title">Microsoft Teams Channels</div>
-    </div>
-
-    <div class="panel" style="margin-bottom:16px;">
-      <div class="panel-head"><span class="panel-title">Required Channels — Create These Now</span></div>
-      <div class="panel-body" style="padding:8px 20px;">
-        <div class="channel-item">
-          <div class="channel-hash">#</div>
-          <div>
-            <span class="channel-name">General</span>
-            <span class="channel-desc">Studio-wide announcements only. Monday objectives posted here every week. No casual chat.</span>
-          </div>
-        </div>
-        <div class="channel-item">
-          <div class="channel-hash">#</div>
-          <div>
-            <span class="channel-name">Active Projects</span>
-            <span class="channel-desc">All project updates, stage changes, review notifications. One post per project event.</span>
-          </div>
-        </div>
-        <div class="channel-item">
-          <div class="channel-hash">#</div>
-          <div>
-            <span class="channel-name">Client Communications</span>
-            <span class="channel-desc">Archive all client WhatsApp messages here. Paste or screenshot every important client message with the project code.</span>
-          </div>
-        </div>
-        <div class="channel-item">
-          <div class="channel-hash">#</div>
-          <div>
-            <span class="channel-name">Finance & Billing</span>
-            <span class="channel-desc">Invoice confirmations, payment received alerts, expense notes. Every money movement is logged here.</span>
-          </div>
-        </div>
-        <div class="channel-item">
-          <div class="channel-hash">#</div>
-          <div>
-            <span class="channel-name">APS Coordination</span>
-            <span class="channel-desc">APS and Lawrence only. Weekly objectives, deliveries, strategic decisions. Monday / Wednesday / Friday rhythm.</span>
-          </div>
-        </div>
-        <div class="channel-item">
-          <div class="channel-hash">#</div>
-          <div>
-            <span class="channel-name">Dev Team</span>
-            <span class="channel-desc">Private channel. APS + Dev team only. SOW responses, build updates, staging links. No client info here.</span>
-          </div>
-        </div>
-        <div class="channel-item">
-          <div class="channel-hash">#</div>
-          <div>
-            <span class="channel-name">SOPs & Knowledge</span>
-            <span class="channel-desc">SOP updates, process improvements, training notes. Living library of how Fulgent Post operates.</span>
-          </div>
-        </div>
-        <div class="channel-item">
-          <div class="channel-hash">#</div>
-          <div>
-            <span class="channel-name">PROJECT — Barua ya Moyo</span>
-            <span class="channel-desc">All communication for SYNC-MV-002. Invite Sync Films contact as guest when portal is live.</span>
-          </div>
-        </div>
-        <div class="channel-item">
-          <div class="channel-hash">#</div>
-          <div>
-            <span class="channel-name">PROJECT — Indomie TVC</span>
-            <span class="channel-desc">All communication for AFRO-TVC-003. Invite AfroWave contact as guest when portal is live.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-head"><span class="panel-title">Migration — WhatsApp to Teams</span></div>
-      <div class="panel-body">
-        <div class="action-item">
-          <div class="action-num ai-amber" style="font-size:var(--text-base);font-weight:700;">1</div>
-          <div>
-            <div class="action-title">Open WhatsApp — Sync Films chat</div>
-            <div class="action-meta">Screenshot every approval, instruction, scope change, and payment confirmation</div>
-          </div>
-        </div>
-        <div class="action-item">
-          <div class="action-num ai-amber" style="font-size:var(--text-base);font-weight:700;">2</div>
-          <div>
-            <div class="action-title">Post each screenshot in Teams</div>
-            <div class="action-meta">Client Communications channel · Tag the project code SYNC-MV-002</div>
-          </div>
-        </div>
-        <div class="action-item">
-          <div class="action-num ai-amber" style="font-size:var(--text-base);font-weight:700;">3</div>
-          <div>
-            <div class="action-title">Repeat for AfroWave Productions</div>
-            <div class="action-meta">Tag AFRO-TVC-003 on all messages</div>
-          </div>
-        </div>
-        <div class="action-item">
-          <div class="action-num ai-green" style="font-size:var(--text-base);font-weight:700;">4</div>
-          <div>
-            <div class="action-title">From today — all business comms go to Teams first</div>
-            <div class="action-meta">WhatsApp is acknowledged then immediately archived to Teams</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><!-- /teams -->
-
-  <!-- ─── FINANCE ────────────────────────────────────── -->
-  <div id="finance" class="page-section">
-    <div class="section-head">
-      <div class="section-eyebrow">Financial Overview</div>
-      <div class="section-title">Finance & Billing</div>
-    </div>
-
-    <div class="three-col" style="margin-bottom:16px;">
-      <div class="kpi-card c-green">
-        <div class="kpi-label">Received — June</div>
-        <div class="kpi-val">63K</div>
-        <div class="kpi-sub">2 deposits confirmed</div>
-      </div>
-      <div class="kpi-card c-amber">
-        <div class="kpi-label">Outstanding</div>
-        <div class="kpi-val">27K</div>
-        <div class="kpi-sub">2 invoices pending</div>
-      </div>
-      <div class="kpi-card c-gold">
-        <div class="kpi-label">June Target</div>
-        <div class="kpi-val gold">350K</div>
-        <div class="kpi-sub">18% achieved</div>
-      </div>
-    </div>
-
-    <div class="panel" style="margin-bottom:16px;">
-      <div class="panel-head"><span class="panel-title">Invoice Register</span></div>
-      <div class="panel-body" style="padding:0 20px;">
-        <div style="overflow-x:auto;">
-          <table class="proj-table">
-            <thead>
-              <tr>
-                <th>Invoice</th>
-                <th>Client</th>
-                <th>Type</th>
-                <th>Amount</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="proj-code">FPH-2026-001</span></td>
-                <td style="font-size:var(--text-sm)">Sync Films Ltd</td>
-                <td style="font-size:var(--text-sm)">Deposit 70%</td>
-                <td style="font-weight:700;">KES 24,500</td>
-                <td><span class="badge active" style="font-size:var(--text-sm)">PAID</span></td>
-              </tr>
-              <tr>
-                <td><span class="proj-code">FPH-2026-002</span></td>
-                <td style="font-size:var(--text-sm)">AfroWave Productions</td>
-                <td style="font-size:var(--text-sm)">Deposit 70%</td>
-                <td style="font-weight:700;">KES 38,500</td>
-                <td><span class="badge active" style="font-size:var(--text-sm)">PAID</span></td>
-              </tr>
-              <tr>
-                <td><span class="proj-code">FPH-2026-003</span></td>
-                <td style="font-size:var(--text-sm)">Sync Films Ltd</td>
-                <td style="font-size:var(--text-sm)">Balance 30%</td>
-                <td style="font-weight:700;">KES 10,500</td>
-                <td><span class="badge review" style="font-size:var(--text-sm)">PENDING</span></td>
-              </tr>
-              <tr>
-                <td><span class="proj-code">FPH-2026-004</span></td>
-                <td style="font-size:var(--text-sm)">APS Retainer</td>
-                <td style="font-size:var(--text-sm)">Monthly</td>
-                <td style="font-weight:700;">KES 10,000</td>
-                <td><span class="badge review" style="font-size:var(--text-sm)">PENDING</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-head"><span class="panel-title">Payment Policy</span></div>
-      <div class="panel-body">
-        <div class="fin-row"><span class="fin-label">Deposit required before work starts</span><span class="fin-val gold">70%</span></div>
-        <div class="fin-row"><span class="fin-label">Balance due on final delivery</span><span class="fin-val gold">30%</span></div>
-        <div class="fin-row"><span class="fin-label">Payment methods</span><span class="fin-val">M-Pesa · Bank Transfer</span></div>
-        <div class="fin-row"><span class="fin-label">Overdue fee (per month)</span><span class="fin-val warn">2%</span></div>
-        <div class="fin-row"><span class="fin-label">Masters released after</span><span class="fin-val">Full payment only</span></div>
-      </div>
-    </div>
-  </div><!-- /finance -->
-
-  <!-- ─── SOPs ───────────────────────────────────────── -->
-  <div id="sops" class="page-section">
-    <div class="section-head">
-      <div class="section-eyebrow">Standard Operating Procedures</div>
-      <div class="section-title">SOPs</div>
-    </div>
-    <div class="panel">
-      <div class="panel-head"><span class="panel-title">SOP Completion Status</span></div>
-      <div class="panel-body" style="padding:8px 20px;">
-        <div class="sop-item">
-          <div class="sop-left">
-            <div class="sop-check done">✓</div>
-            <div><span class="sop-name">Media Ingest & Organisation</span><span class="sop-code">SOP-01</span></div>
-          </div>
-          <span class="sop-badge done">Complete</span>
-        </div>
-        <div class="sop-item">
-          <div class="sop-left">
-            <div class="sop-check done">✓</div>
-            <div><span class="sop-name">Grading Session Workflow</span><span class="sop-code">SOP-02</span></div>
-          </div>
-          <span class="sop-badge done">Complete</span>
-        </div>
-        <div class="sop-item">
-          <div class="sop-left">
-            <div class="sop-check done">✓</div>
-            <div><span class="sop-name">Client Review & Feedback</span><span class="sop-code">SOP-03</span></div>
-          </div>
-          <span class="sop-badge done">Complete</span>
-        </div>
-        <div class="sop-item">
-          <div class="sop-left">
-            <div class="sop-check wip">!</div>
-            <div><span class="sop-name">QC Checklist</span><span class="sop-code">SOP-04</span></div>
-          </div>
-          <span class="sop-badge wip">In Progress</span>
-        </div>
-        <div class="sop-item">
-          <div class="sop-left">
-            <div class="sop-check"></div>
-            <div><span class="sop-name">Delivery & Archiving</span><span class="sop-code">SOP-05</span></div>
-          </div>
-          <span class="sop-badge todo">To Do</span>
-        </div>
-        <div class="sop-item">
-          <div class="sop-left">
-            <div class="sop-check"></div>
-            <div><span class="sop-name">Client Inquiry & Onboarding</span><span class="sop-code">SOP-06</span></div>
-          </div>
-          <span class="sop-badge todo">To Do</span>
-        </div>
-        <div class="sop-item">
-          <div class="sop-left">
-            <div class="sop-check"></div>
-            <div><span class="sop-name">Backup & Storage Protocol</span><span class="sop-code">SOP-07</span></div>
-          </div>
-          <span class="sop-badge todo">To Do</span>
-        </div>
-      </div>
-    </div>
-  </div><!-- /sops -->
-
-  <!-- ─── EQUIPMENT ──────────────────────────────────── -->
-  <div id="equipment" class="page-section">
-    <div class="section-head">
-      <div class="section-eyebrow">Grading Suite</div>
-      <div class="section-title">Equipment Inventory</div>
-    </div>
-    <div class="panel">
-      <div class="panel-head"><span class="panel-title">Suite Hardware</span></div>
-      <div class="panel-body" style="padding:8px 20px;">
-        <div class="equip-item">
-          <div>
-            <span class="equip-name">LG OLED C3 — Calibrated</span>
-            <span class="equip-spec">Reference Display · Rec.709 · D65 · 100 nits SDR</span>
-          </div>
-          <span class="equip-status live">Live</span>
-        </div>
-        <div class="equip-item">
-          <div>
-            <span class="equip-name">Blackmagic DeckLink 4K</span>
-            <span class="equip-spec">Video I/O · SDI/HDMI · 10-bit · DaVinci Resolve</span>
-          </div>
-          <span class="equip-status live">Live</span>
-        </div>
-        <div class="equip-item">
-          <div>
-            <span class="equip-name">ASUS ProArt PA32UCR</span>
-            <span class="equip-spec">GUI Monitor · 4K · 99.5% Adobe RGB · ΔE&lt;1</span>
-          </div>
-          <span class="equip-status live">Live</span>
-        </div>
-        <div class="equip-item">
-          <div>
-            <span class="equip-name">HP Z640 Workstation</span>
-            <span class="equip-spec">Xeon E5-2690 · 64GB RAM · RTX 3060 Ti · 513GB SSD</span>
-          </div>
-          <span class="equip-status live">Live</span>
-        </div>
-        <div class="equip-item">
-          <div>
-            <span class="equip-name">DaVinci Resolve Mini Panel</span>
-            <span class="equip-spec">Control Surface · 3 Trackballs · 12 Rings</span>
-          </div>
-          <span class="equip-status live">Live</span>
-        </div>
-        <div class="equip-item">
-          <div>
-            <span class="equip-name">M-Audio BX8 Studio Monitors</span>
-            <span class="equip-spec">Audio · 8" Kevlar · 37Hz–22kHz</span>
-          </div>
-          <span class="equip-status live">Live</span>
-        </div>
-        <div class="equip-item">
-          <div>
-            <span class="equip-name">Video Scope Monitor</span>
-            <span class="equip-spec">Waveform · Vectorscope · RGB Parade · Histogram</span>
-          </div>
-          <span class="equip-status live">Live</span>
-        </div>
-        <div class="equip-item">
-          <div>
-            <span class="equip-name">Synology NAS (4-Bay)</span>
-            <span class="equip-spec">Storage Expansion · Phase 2 · KES 45,000–60,000</span>
-          </div>
-          <span class="equip-status p2">Phase 2</span>
-        </div>
-        <div class="equip-item">
-          <div>
-            <span class="equip-name">UPS Power Protection</span>
-            <span class="equip-spec">APC 1500VA · Phase 2 · KES 18,000–25,000</span>
-          </div>
-          <span class="equip-status p2">Phase 2</span>
-        </div>
-      </div>
-    </div>
-  </div><!-- /equipment -->
-
-  <!-- ─── ROADMAP ────────────────────────────────────── -->
-  <div id="roadmap" class="page-section">
-    <div class="section-head">
-      <div class="section-eyebrow">Execution Framework</div>
-      <div class="section-title">Phase Roadmap</div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-head"><span class="panel-title">Phase Progress</span></div>
-      <div class="panel-body" style="padding:8px 20px;">
-        <div class="phase-item">
-          <div class="phase-row">
-            <span class="phase-num">PHASE 0 — Stabilisation</span>
-            <span class="phase-pct" style="color:var(--green)">100%</span>
-          </div>
-          <div class="phase-name">Handover & Engagement Confirmed</div>
-          <div class="phase-desc">Asset recovery · Terms locked · THRS dissolved · Re-anchor issued</div>
-          <div class="prog-track"><div class="prog-fill green" style="width:100%"></div></div>
-        </div>
-        <div class="phase-item">
-          <div class="phase-row">
-            <span class="phase-num">PHASE 1 — Foundation</span>
-            <span class="phase-pct">60%</span>
-          </div>
-          <div class="phase-name">Operational Infrastructure</div>
-          <div class="phase-desc">M365 live · SharePoint active · Teams setup pending · Storage pending</div>
-          <div class="prog-track"><div class="prog-fill" style="width:60%"></div></div>
-        </div>
-        <div class="phase-item">
-          <div class="phase-row">
-            <span class="phase-num">PHASE 2 — Website</span>
-            <span class="phase-pct">10%</span>
-          </div>
-          <div class="phase-name">Brand Platform & Custom Build</div>
-          <div class="phase-desc">Domain recovery · Dev SOW issued · Awaiting team responses</div>
-          <div class="prog-track"><div class="prog-fill" style="width:10%"></div></div>
-        </div>
-        <div class="phase-item">
-          <div class="phase-row">
-            <span class="phase-num">PHASE 3 — Systems</span>
-            <span class="phase-pct">0%</span>
-          </div>
-          <div class="phase-name">Business Systems & CRM</div>
-          <div class="phase-desc">HubSpot · Invoicing system · Business registration complete</div>
-          <div class="prog-track"><div class="prog-fill" style="width:0%"></div></div>
-        </div>
-        <div class="phase-item">
-          <div class="phase-row">
-            <span class="phase-num">PHASE 4 — Market</span>
-            <span class="phase-pct">0%</span>
-          </div>
-          <div class="phase-name">Market Activation</div>
-          <div class="phase-desc">Case studies · Showreel · Service packaging · Instagram content</div>
-          <div class="prog-track"><div class="prog-fill" style="width:0%"></div></div>
-        </div>
-        <div class="phase-item">
-          <div class="phase-row">
-            <span class="phase-num">PHASE 5 — Ecosystem</span>
-            <span class="phase-pct">0%</span>
-          </div>
-          <div class="phase-name">Scale & Expansion</div>
-          <div class="phase-desc">Academy · LUT shop · Frame.io · NAS · Cloud GPU</div>
-          <div class="prog-track"><div class="prog-fill" style="width:0%"></div></div>
-        </div>
-      </div>
-    </div>
-  </div><!-- /roadmap -->
-
-  <!-- FOOTER -->
-  <div class="footer">
-    <div class="footer-studio">FULGENT POST ATELIER <span>·</span> COLOR <span>·</span> FINISH <span>·</span> DELIVERY</div>
-    <div class="footer-meta">Operations Centre v1.0 · Powered by Audio Pine Solutions · June 2026</div>
-  </div>
-
-</div><!-- /wrap -->
-
 <script>
-// Section navigation
-function showSection(id, btn) {
-  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if (btn) btn.classList.add('active');
-  window.scrollTo({ top: document.querySelector('.navbar').offsetTop - 3, behavior: 'smooth' });
+function goPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  btn.classList.add('active');
+  document.querySelector('.canvas').scrollTop = 0;
 }
-
-// Animate progress bars on load
+function tick() {
+  const now = new Date();
+  const opts = { weekday:'short', day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' };
+  document.getElementById('clock').textContent = now.toLocaleString('en-KE', opts);
+}
+tick();
+setInterval(tick, 30000);
 window.addEventListener('load', () => {
   setTimeout(() => {
-    document.querySelectorAll('.prog-fill').forEach(f => {
+    document.querySelectorAll('.bar-fill').forEach(f => {
       const w = f.style.width;
       f.style.width = '0%';
-      setTimeout(() => { f.style.width = w; }, 100);
+      requestAnimationFrame(() => { f.style.width = w; });
     });
-  }, 300);
+  }, 200);
 });
 </script>
-
 </body>
 </html>
